@@ -23,8 +23,8 @@ namespace Web3MoriaGates
     public class GameManager : MonoBehaviour
     {
         //Smart Contract Data
-        private const string ContractAddress = "";
-        private const string ContractAbi = "";
+        private const string ContractAddress = "0x9aEB5A6128465b989969F95eC4Bfc55d07604393";
+        private const string ContractAbi = "[{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"magicPassword\",\"type\":\"bytes32\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"result\",\"type\":\"bool\"}],\"name\":\"CorrectPassword\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"password\",\"type\":\"string\"}],\"name\":\"openGates\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
         
         //Database Queries
         private MoralisQuery<MoriaGatesEvent> _getEventsQuery;
@@ -132,8 +132,9 @@ namespace Web3MoriaGates
             // Set gas estimate
             HexBigInteger value = new HexBigInteger(0);
             HexBigInteger gas = new HexBigInteger(0);
-            HexBigInteger gasPrice = new HexBigInteger(0);
+            HexBigInteger gasPrice = new HexBigInteger(1);
 
+            // execute smart-contract
             string resp = await Moralis.ExecuteContractFunction(ContractAddress, ContractAbi, "openGates", parameters, value, gas, gasPrice);
             
             return resp;
@@ -181,7 +182,8 @@ namespace Web3MoriaGates
             if (result)
             {
                 //We could load another game scene here
-                //SceneManager.LoadScene("Main");
+                SceneManager.LoadScene("Main");
+                Debug.Log("Success! Load Next Scene..");
             }
             else
             {
